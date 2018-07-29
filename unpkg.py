@@ -64,8 +64,11 @@ import sys
 import shutil
 import tempfile
 
-XAR_PATH = os.path.join(os.path.dirname(sys.argv[0]), 'xar')
-CPIO_PATH = os.path.join(os.path.dirname(sys.argv[0]), 'cpio')
+#XAR_PATH = os.path.join(os.path.dirname(sys.argv[0]), 'xar')
+#CPIO_PATH = os.path.join(os.path.dirname(sys.argv[0]), 'cpio')
+#2018-07-29 - TJL: All I did was comment out the two lines above, and then add the two lines below, because otherwise it did not work for me
+XAR_PATH = '/usr/bin/xar'
+CPIO_PATH = '/usr/bin/cpio'
 
 def get_extract_dir(pkg_path):
 	enclosing_path, pkg_name = os.path.split(os.path.splitext(pkg_path)[0])
@@ -73,9 +76,9 @@ def get_extract_dir(pkg_path):
 	# if the enclosing path is not writable, extract to Desktop
 	if not os.access(enclosing_path, os.W_OK):
 		enclosing_path = os.path.join(os.environ['HOME'], 'Desktop')
-	
+
 	extract_dir = os.path.join(enclosing_path, pkg_name)
-	
+
 	if os.path.exists(extract_dir):
 		orig_extract_dir = extract_dir
 		for i in xrange(1, 1000):
@@ -84,7 +87,7 @@ def get_extract_dir(pkg_path):
 			if i == 999: # I sure hope this never happens...
 				print 'Cannot establish appropriate extraction directory.'
 				sys.exit()
-	
+
 	return extract_dir
 
 # Python 2.3 on OS X 10.4 doesn't have subprocess, so use this function instead
